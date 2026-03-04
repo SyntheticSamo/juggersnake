@@ -1,7 +1,7 @@
 # JuggerSnake game  
 
 This is a HBD gift to 霞，one of the biggest Juggernaut fans in the world.  
-Original idea from @Catbot3. He is a great programmer and 4k player; wish he luck passing ex8.
+Original idea from @Catbot3. He is a great programmer and 4k player; wish he luck passing ex8.  
 I don't have much to say, please enjoy this game as well as these music!
 And HAPPY BIRTHDAY MY BITCH!!!!!
 
