@@ -284,7 +284,7 @@
 
         <div class="game-wrapper">
             <div class="game-column">
-                <canvas id="gameCanvas" width="800" height="800"></canvas>
+                <canvas id="gameCanvas" width="600" height="600" style="max-width:90vw;max-height:90vh;">Your browser does not support the canvas element.</canvas>
                 <div class="controls">
                     <button id="startBtn" onclick="startGame()">Start Game</button>
                     <button id="pauseBtn" onclick="togglePause()" disabled>Pause</button>
@@ -311,10 +311,10 @@
         <img id="milestoneImage" alt="Milestone">
     </div>
 
-    <div class="fan-overlay" id="fanOverlay">
-        <div class="fan-text" id="fanOverlayText">You are a<br>real Juggernaut fan!<br>你赢了，你的剑圣吃品味小众且独特<br>あなたの勝ちだ。あなたのJuggernautへの愛はニッチで独占的だ。</div>
+    <!-- link back to repository -->
+    <div style="margin-top:20px; text-align:center;">
+        <button onclick="window.open('https://github.com/SyntheticSamo/juggersnake','_blank')" style="padding:10px 20px;font-size:16px;cursor:pointer;">View source on GitHub</button>
     </div>
-
     <div class="combo-text" id="comboText"></div>
 
     
@@ -535,7 +535,8 @@
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         const gridSize = 40;
-        const tileCount = canvas.width / gridSize;
+        // recalc tileCount in case canvas is scaled by CSS
+        const tileCount = Math.floor(canvas.width / gridSize);
 
         // Game variables
         let snake = [{ x: 5, y: 5 }];
