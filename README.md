@@ -1,6 +1,7 @@
 # JuggerSnake game  
 
 This is a HBD gift to 霞，one of the biggest Juggernaut fans in the world.  
+Original idea from @Catbot3. He is a great programmer and 4k player; wish he luck passing ex8.
 I don't have much to say, please enjoy this game as well as these music!
 And HAPPY BIRTHDAY MY BITCH!!!!!
 
@@ -30,4 +31,4 @@ Your score increases by 10 per apple.
 - The Juggernaut pictures are actually provided by 霞 herself! I don't even know she has so many of them.
 - If you collect all the songs, something magical will happen......
 - The menu music Happy Birthday is singed by AI Juggernaut; I extract his fantastic vocal from Evo.
-- Do you know? Juggernaut is a
+- Juggernaut Saiko!

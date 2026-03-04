@@ -33,10 +33,25 @@
             align-items: flex-start;
         }
 
+        /* small repo icon in lower-right corner */
+        #github-link {
+            position: fixed;
+            right: 10px;
+            bottom: 10px;
+            width: 32px;
+            height: 32px;
+            z-index: 10010;
+        }
+        #github-link img {
+            width: 100%;
+            height: 100%;
+        }
+
         h1 {
             color: white;
             margin-bottom: 20px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            transform: translateY(20px); /* visually lower without changing layout height */
         }
 
         .game-info {
@@ -63,11 +78,11 @@
         }
 
         canvas {
-            border: 3px solid #00ff00;
+            border: 3px solid #b2bcbb;
             background-color: #0f1419;
             display: block;
             margin: 0 auto 20px;
-            box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+            box-shadow: 0 0 30px rgba(178, 188, 187, 0.3);
         }
 
         .controls {
@@ -80,7 +95,7 @@
         }
 
         button {
-            background: #00aa44;
+            background: #a3c4f3; /* shallow blue */
             color: white;
             border: none;
             padding: 12px 30px;
@@ -89,12 +104,12 @@
             cursor: pointer;
             margin: 5px;
             transition: background 0.3s;
-            box-shadow: 0 0 10px rgba(0, 170, 68, 0.5);
+            box-shadow: 0 0 10px rgba(163, 196, 243, 0.5);
         }
 
         button:hover {
-            background: #00dd55;
-            box-shadow: 0 0 15px rgba(0, 221, 85, 0.7);
+            background: #8bb2e8;
+            box-shadow: 0 0 15px rgba(139, 178, 232, 0.7);
         }
 
         button:disabled {
@@ -107,13 +122,14 @@
             color: white;
             padding: 15px;
             border-radius: 5px;
-            display: none;
+            visibility: hidden; /* reserve space even when empty */
             min-width: 200px;
+            min-height: 180px;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .song-info.active {
-            display: block;
+            visibility: visible;
         }
 
         .sidebar-column {
@@ -311,9 +327,9 @@
         <img id="milestoneImage" alt="Milestone">
     </div>
 
-    <!-- link back to repository -->
-    <div style="margin-top:20px; text-align:center;">
-        <button onclick="window.open('https://github.com/SyntheticSamo/juggersnake','_blank')" style="padding:10px 20px;font-size:16px;cursor:pointer;">View source on GitHub</button>
+    <!-- link to repo as underlined text -->
+    <div style="position:fixed; right:10px; bottom:10px; z-index:10010;">
+        <a href="https://github.com/SyntheticSamo/juggersnake" target="_blank" style="color:#a3c4f3; text-decoration:underline; font-weight:bold;">View Source</a>
     </div>
     <div class="combo-text" id="comboText"></div>
 
