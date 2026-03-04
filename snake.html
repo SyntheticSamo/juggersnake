@@ -16,13 +16,21 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: url('YOUR_IMAGE_URL_HERE') no-repeat center center fixed;
-            background-size: cover;
+            background: #0a0e27;
             font-family: 'Arial', sans-serif;
         }
 
         .container {
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .game-wrapper {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
         }
 
         h1 {
@@ -40,30 +48,39 @@
             font-size: 18px;
         }
 
+        .game-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
         .info-item {
-            background: rgba(0,0,0,0.3);
+            background: rgba(255, 255, 255, 0.1);
             padding: 10px 20px;
             border-radius: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         canvas {
-            border: 3px solid white;
-            background-color: #1a1a1a;
+            border: 3px solid #00ff00;
+            background-color: #0f1419;
             display: block;
             margin: 0 auto 20px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
         }
 
         .controls {
             color: white;
-            background: rgba(0,0,0,0.3);
+            background: rgba(255, 255, 255, 0.1);
             padding: 15px;
             border-radius: 5px;
             margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         button {
-            background: #4CAF50;
+            background: #00aa44;
             color: white;
             border: none;
             padding: 12px 30px;
@@ -72,10 +89,12 @@
             cursor: pointer;
             margin: 5px;
             transition: background 0.3s;
+            box-shadow: 0 0 10px rgba(0, 170, 68, 0.5);
         }
 
         button:hover {
-            background: #45a049;
+            background: #00dd55;
+            box-shadow: 0 0 15px rgba(0, 221, 85, 0.7);
         }
 
         button:disabled {
@@ -84,16 +103,126 @@
         }
 
         .song-info {
-            background: rgba(0,0,0,0.3);
+            background: rgba(255, 255, 255, 0.1);
             color: white;
             padding: 15px;
             border-radius: 5px;
-            margin-bottom: 20px;
             display: none;
+            min-width: 200px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .song-info.active {
             display: block;
+        }
+
+        .sidebar-column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .sidebar-image {
+            width: 100%;
+            max-width: 250px;
+            height: auto;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .milestone-overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            z-index: 10001;
+            pointer-events: none;
+            animation: comboAnimation 4s ease-in-out forwards;
+        }
+
+        .milestone-overlay.active {
+            display: flex;
+        }
+
+        .milestone-overlay img {
+            max-width: 80vw;
+            max-height: 80vh;
+            object-fit: contain;
+            opacity: 0.9;
+        }
+
+        /* Fan fullscreen overlay (semi-transparent so board remains visible) */
+        .fan-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10002;
+            background: rgba(0,0,0,0.35);
+            pointer-events: none;
+        }
+
+        .fan-overlay.active {
+            display: flex;
+            animation: fanOverlayAnim 4s ease-in-out forwards;
+        }
+
+        .fan-overlay .fan-text {
+            color: #FFD700;
+            font-size: 72px;
+            font-weight: 900;
+            text-align: center;
+            text-shadow: 0 0 30px rgba(255,215,0,0.8);
+            opacity: 0.6; /* make more transparent */
+        }
+
+        @keyframes fanOverlayAnim {
+            0% { opacity: 0; transform: scale(0.6); }
+            50% { opacity: 1; transform: scale(1.05); }
+            100% { opacity: 0; transform: scale(1); }
+        }
+
+        .combo-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 80px;
+            font-weight: bold;
+            color: #FFD700;
+            opacity: 0.95;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 100, 0, 0.6);
+            pointer-events: none;
+            animation: comboAnimation 4s ease-in-out forwards;
+            z-index: 10000;
+            display: none;
+        }
+
+        .combo-text.active {
+            display: block;
+        }
+
+        @keyframes comboAnimation {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            50% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(1);
+            }
         }
 
         .song-cover {
@@ -107,66 +236,295 @@
             width: 100%;
             margin-top: 10px;
         }
+
+        .combo-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 80px;
+            font-weight: bold;
+            color: #FFD700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 100, 0, 0.6);
+            pointer-events: none;
+            animation: comboAnimation 4s ease-in-out forwards;
+            z-index: 10000;
+            display: none;
+        }
+
+        .combo-text.active {
+            display: block;
+        }
+
+        @keyframes comboAnimation {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            50% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🐍 Juggernake 🎵</h1>
+        <h1>Juggernake - HBD to 霞</h1>
         
         <div class="game-info">
             <div class="info-item">Score: <span id="score">0</span></div>
-            <div class="info-item">Songs Eaten: <span id="songsEaten">0</span></div>
+            <div class="info-item">Apples Eaten: <span id="applesEaten">0</span></div>
+            <div class="info-item">Songs Collected: <span id="songsCollected">0</span></div>
         </div>
 
-        <canvas id="gameCanvas" width="400" height="400"></canvas>
+        <div class="game-wrapper">
+            <div class="game-column">
+                <canvas id="gameCanvas" width="800" height="800"></canvas>
+                <div class="controls">
+                    <button id="startBtn" onclick="startGame()">Start Game</button>
+                    <button id="pauseBtn" onclick="togglePause()" disabled>Pause</button>
+                    <p style="margin-top: 10px; font-size: 14px;">Use Arrow Keys to move</p>
+                </div>
+            </div>
 
-        <div class="controls">
-            <button id="startBtn" onclick="startGame()">Start Game</button>
-            <button id="pauseBtn" onclick="togglePause()" disabled>Pause</button>
-            <p style="margin-top: 10px; font-size: 14px;">Use Arrow Keys to move</p>
-        </div>
+            <div class="sidebar-column">
+                <div class="song-info" id="songInfo">
+                    <p>Now Playing:</p>
+                    <p id="songName"></p>
+                    <img id="songCover" class="song-cover" alt="Song Cover">
+                    <audio id="bgm" controls>
+                        <source id="audioSource" src="" type="audio/mpeg">
+                    </audio>
+                </div>
+                <img id="sidebarImage" class="sidebar-image" alt="Sidebar Image" src="https://via.placeholder.com/250x250?text=Your+Image+Here">
 
-        <div class="song-info" id="songInfo">
-            <p>Now Playing:</p>
-            <p id="songName"></p>
-            <img id="songCover" class="song-cover" alt="Song Cover">
-            <audio id="bgm" controls>
-                <source id="audioSource" src="" type="audio/mpeg">
-            </audio>
+            </div>
         </div>
     </div>
+
+    <div class="milestone-overlay" id="milestoneOverlay">
+        <img id="milestoneImage" alt="Milestone">
+    </div>
+
+    <div class="fan-overlay" id="fanOverlay">
+        <div class="fan-text" id="fanOverlayText">You are a<br>real Juggernaut fan!<br>你赢了，你的剑圣吃品味小众且独特<br>あなたの勝ちだ。あなたのJuggernautへの愛はニッチで独占的だ。</div>
+    </div>
+
+    <div class="combo-text" id="comboText"></div>
+
+    
+
+    <audio id="bgmMenu" loop style="display: none;">
+        <source id="bgmMenuSource" src="" type="audio/mpeg">
+    </audio>
 
     <script>
         // ============================================
         // CUSTOMIZATION SECTION - CHANGE IMAGES HERE
         // ============================================
 
+        // MILESTONE IMAGES - Change these to your celebration images!
+        // These will appear at 25, 50, and 75 apples eaten
+        const MILESTONE_IMAGES = {
+            25: 'https://i.ibb.co/WvfM99M9/98-AE514-C0689-FB2-F77-AF6830-F1-FD4-E25.jpg',   // Replace with your image URL
+            50: 'https://i.ibb.co/7tXP4PVW/6256-C076-D8-FF69-F3-CAF95-E7229261-C84.jpg',   // Replace with your image URL
+            75: 'https://i.ibb.co/YnrqxgQ/BEE42-D4-E82-D6633-B70-BEBAF07-CB27306.jpg'  // Replace with your image URL
+        };
+        // SIDEBAR IMAGE - Change this to your custom sidebar image URL
+        const SIDEBAR_IMAGE_URL = 'https://i.ibb.co/Lhc3MFvs/54634-C8-A80-EA86-CD98-F81-EF9-B2-DD5999.jpg';
+        
+        document.getElementById('sidebarImage').src = SIDEBAR_IMAGE_URL;
+        
+        // BACKGROUND MENU MUSIC - Change this to your background music URL (plays when game is not running)
+        const MENU_MUSIC_URL = 'https://image2url.com/r2/default/audio/1772577178179-629b2bf5-2280-4792-86d8-8f742615fe9d.mp3';
+        
+        document.getElementById('bgmMenuSource').src = MENU_MUSIC_URL;
+        document.getElementById('bgmMenu').volume = 0.3;        
         // SNAKE IMAGE - Change this to your snake image URL
-        const SNAKE_IMAGE_URL = 'https://ibb.co/9X4WPD7';
+        const SNAKE_IMAGE_URL = 'https://i.ibb.co/7Jdjc93j/image.png';
         
         // APPLE/FOOD IMAGES AND SONGS - Add your songs here!
         // Format: { coverUrl: 'image_url', songUrl: 'audio_url', songName: 'Song Name' }
         const SONGS = [
             {
-                coverUrl: 'https://ibb.co/pj3xdrzX',
-                songUrl: 'https://music.163.com/song?id=2730282462',
-                songName: 'Lily'
+                coverUrl: 'https://i.ibb.co/5h56Lx8c/C8422-C739-F4-F45-DBD54-AA4-D2-C06939-BB.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772572095415-17fd1c09-1a2d-4966-8c09-c54a0bbe976c.mp3',
+                songName: 'Lilly',
+                startTime: 100
             },
             {
-                coverUrl: 'https://ibb.co/Txcp08rj',
-                songUrl: 'https://music.163.com/song?id=2703896449',
-                songName: 'Nova'
+                coverUrl: 'https://i.ibb.co/C3BN97WC/229-FCEB0-DE16243-BD2-FA28-E2-AD04-A812.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772572585127-86cdd210-4a92-481b-bda4-17d1a73b165d.mp3',
+                songName: 'Nova',
+                startTime: 100
             },
             {
-                coverUrl: 'https://ibb.co/Txcp08rj',
-                songUrl: 'https://music.163.com/song?id=2703896446',
-                songName: 'Once again'
+                coverUrl: 'https://i.ibb.co/C3BN97WC/229-FCEB0-DE16243-BD2-FA28-E2-AD04-A812.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772572763789-da8ae0e7-8e4a-4049-b6d7-bfea7892ccfe.mp3',
+                songName: 'Once again',
+                startTime: 100
             },
             {
-                coverUrl: 'https://ibb.co/Txcp08rj',
-                songUrl: 'https://music.163.com/song?id=2703896452',
-                songName: 'Radiance'
-            }
+                coverUrl: 'https://i.ibb.co/G4RGfwy1/E105-DCF6-E4-E8-AEAFD383800-EA824-E125.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772572809153-f11a09a1-21a4-41a1-98c7-f80e7b59bdff.mp3',
+                songName: 'Stargaze',
+                startTime: 100
+            },
+            {
+                coverUrl: 'https://i.ibb.co/G4RGfwy1/E105-DCF6-E4-E8-AEAFD383800-EA824-E125.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772572824763-63368a70-5c99-47c3-8776-416c196f9d65.mp3',
+                songName: 'Lost Dream (feat.星名はる)',
+                startTime: 100
+            },
+            {
+                coverUrl: 'https://i.ibb.co/PZghYzh7/75-C021-E9-DAE18-CF2-D16-AB9247394-E3-D1.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772572878675-0eb57ad2-c4f0-49f7-a0b7-4d183ea79e84.mp3',
+                songName: 'Shining Harmony (Juggernaut. Remix)',
+                startTime: 100
+            },
+            {
+                coverUrl: 'https://i.ibb.co/fGKW0Jpm/A842-FB3593-C46585-B0-F638-D4189-BE145.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772572896038-13487d0a-344f-43e7-9010-f9e9a8a4dd90.mp3',
+                songName: 'Abiogenesis',
+                startTime: 100
+            },
+            {
+                coverUrl: 'https://i.ibb.co/c58QqBj/p-CSXmi-PJ-400x400.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772587277005-3ccf715a-1db2-4a27-b411-b314446e3139.mp3',
+                songName: 'Interdixion',
+                startTime: 100
+            },
+            {
+                coverUrl: 'https://i.ibb.co/c58QqBj/p-CSXmi-PJ-400x400.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772572982556-ee410c21-34fc-45fc-8a99-0782ebc90f1c.mp3',
+                songName: 'Divineforce',
+                startTime: 100
+            },
+            {
+                coverUrl: 'https://i.ibb.co/Cp1n00MJ/B34-E2047-CBD5999-FB7-ADB02616-FAC7-D2.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772572993477-71a164e0-0cf4-4afa-8de0-76284bfefe07.mp3',
+                songName: 'Initiating Operation',
+                startTime: 100
+            },
+            {
+                coverUrl: 'https://i.ibb.co/WNJmNprK/B5-A4-C584-F5275-F43868-EB53-D15519-B89.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772573010665-166438dc-20e7-4f2a-a3ca-c474e08fd5b5.mp3',
+                songName: 'Bloom',
+                startTime: 100
+            },
+            {
+                coverUrl: 'https://i.ibb.co/WNJmNprK/B5-A4-C584-F5275-F43868-EB53-D15519-B89.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772573046527-6e1ebec0-0636-48b9-bb30-a6deca83eb4a.mp3',
+                songName: 'Mitsune',
+                startTime: 100
+            },
+            {
+                coverUrl: 'https://i.ibb.co/TQMdMTt/E32-BEFB083-C96-A037-DB7664-C3-CD8144-B.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772573056142-7b6f38ab-c6e1-4dfd-8256-f6695f7e81c3.mp3',
+                songName: 'Last Judgement',
+                startTime: 100
+            },
+            {
+                coverUrl: 'https://i.ibb.co/gbPVGyq8/CCE7-DB26-CE5-B3-A4-B1405-AA96-ACCDDAFC.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772573078749-3eca2392-42cf-4beb-8f1c-7ff88bfb2c04.mp3',
+                songName: 'Valhalla:0 (Extended)',
+                startTime: 100
+            },
+            {
+                coverUrl: 'https://i.ibb.co/gbPVGyq8/CCE7-DB26-CE5-B3-A4-B1405-AA96-ACCDDAFC.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772573089123-4a0a801b-1f00-4d5c-99c2-d25f570be996.mp3',
+                songName: 'Rebellion',
+                startTime: 100
+            },
+            {
+                coverUrl: 'https://i.ibb.co/gbPVGyq8/CCE7-DB26-CE5-B3-A4-B1405-AA96-ACCDDAFC.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772573100204-0c1ab524-cc97-4d87-854a-7b2ee81ddab0.mp3',
+                songName: 'Xeon',
+                startTime: 100
+            },
+            {
+                coverUrl: 'https://i.ibb.co/0jPB7fK8/F1-AA49-C423-ABF7694-A8005100-E5-C2-A4-F.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772573116499-4273ff1a-5c2c-473a-998c-bc5f44b4555b.mp3',
+                songName: 'Immutable',
+                startTime: 100
+            },    
+            {
+                coverUrl: 'https://i.ibb.co/7dpYTPnY/93-CD204-F16-F7-BA3-A67000-C7-B82-F8-BF23.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772573129757-3731e3da-a518-4fbf-945e-97e2b1d3a04c.mp3',
+                songName: 'Antler',
+                startTime: 100
+            },
+            {
+                coverUrl: 'https://i.ibb.co/Kjm4Pskr/42-D8-DCEB2280-B5-ABC9-CDEB290-A66-DB72.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772573347812-e44ab3ab-5760-4501-bd66-3a78e0697439.mp3',
+                songName: 'Memories',
+                startTime: 100
+            },
+            {
+                coverUrl: 'https://i.ibb.co/ychpyB9P/9-D24710415-F2-E4-AAF65-C196-AC49-B6763.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772573379989-647d0d75-f669-40b8-91ca-e7644d150bf3.mp3',
+                songName: 'Counter Fate',
+                startTime: 100
+            },
+            {
+                coverUrl: 'https://i.ibb.co/ychpyB9P/9-D24710415-F2-E4-AAF65-C196-AC49-B6763.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772573398671-79ad8094-c429-40f0-80a1-ba51f6101ef6.mp3',
+                songName: 'Abyss',
+                startTime: 100
+            },
+            {
+                coverUrl: 'https://i.ibb.co/CKvLM344/2-E29-C8-ED5-A14-E788-AB2-E104464893-A8-C-1.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772573412052-cd3a9842-e83d-4829-94be-3aaf6510cd7e.mp3',
+                songName: 'nihil',
+                startTime: 100
+            },     
+            {
+                coverUrl: 'https://i.ibb.co/TNXrqgW/66-BF7-E092869-C8-F0-F55-D913473646079.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772573453851-6436a4eb-9053-43f6-9eff-df0d0ac0a556.mp3',
+                songName: 'Help',
+                startTime: 100
+            },
+            {
+                coverUrl: 'https://i.ibb.co/vvQYMpd7/225-C198-F9-B8696-FD0-A96-AA9-AC77-CAF0-F.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772573431012-7530f2fd-8bbf-4936-be62-f613f0595f26.mp3',
+                songName: 'Liar',
+                startTime: 100
+            },
+            {
+                coverUrl: 'https://i.ibb.co/vv3r0Wtn/08697-AAA2-AAAAE26-D7-ED8076-FAF3-BCEA.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772573593061-00e86ef8-9cdb-47a8-bb15-001734cbe1f9.mp3',
+                songName: 'Catastrophe',
+                startTime: 100
+            },
+            {
+                coverUrl: 'https://i.ibb.co/vv3r0Wtn/08697-AAA2-AAAAE26-D7-ED8076-FAF3-BCEA.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772573600517-6fa0509a-b8f3-42f4-8a87-f6450027e7a6.mp3',
+                songName: 'Void out',
+                startTime: 100
+            },      
+            {
+                coverUrl: 'https://i.ibb.co/vv3r0Wtn/08697-AAA2-AAAAE26-D7-ED8076-FAF3-BCEA.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772573608426-ddd8bb90-643f-486d-bbd3-4adea460005b.mp3',
+                songName: 'Diva',
+                startTime: 100
+            },     
+            {
+                coverUrl: 'https://i.ibb.co/MxG6cMPw/22066-AEB300-CEC9-F938-F1579-CFB5-DB7-B.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772587087700-b65f5ecb-1df2-45ee-831d-171045985ac0.mp3',
+                songName: 'Revenant',
+                startTime: 100
+            },
+            {
+                coverUrl: 'https://i.ibb.co/MxG6cMPw/22066-AEB300-CEC9-F938-F1579-CFB5-DB7-B.jpg',
+                songUrl: 'https://image2url.com/r2/default/audio/1772573634098-963eba18-3b4f-4a7b-8a86-7dfddb43b16a.mp3',
+                songName: 'Retaliation',
+                startTime: 100
+            },   
         ];
 
         // ============================================
@@ -176,33 +534,43 @@
         // Canvas setup
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
-        const gridSize = 20;
+        const gridSize = 40;
         const tileCount = canvas.width / gridSize;
 
         // Game variables
         let snake = [{ x: 5, y: 5 }];
-        let food = { x: 10, y: 10, songIndex: 0 };
+        let food = { x: 10, y: 10, songIndex: 0, changesMusic: true };
         let dx = 1;
         let dy = 0;
         let nextDx = 1;
         let nextDy = 0;
         let score = 0;
-        let songsEaten = 0;
+        let applesEaten = 0;
+        let songsCollected = 0;
+        let collectedSongIndices = new Set(); // track unique songs collected
         let gameRunning = false;
         let gamePaused = false;
         let gameLoop;
         let snakeImg = new Image();
         let foodImages = [];
+        let applesEatenThisRound = 0;
+        let milestoneTriggered = new Set(); // Track which milestones have been triggered
 
         // Load images
         snakeImg.src = SNAKE_IMAGE_URL;
+        snakeImg.onload = () => console.log('✓ Snake image loaded');
+        snakeImg.onerror = () => console.log('✗ Snake image failed to load. Check URL:', SNAKE_IMAGE_URL);
 
         // Load song cover images
         SONGS.forEach((song, index) => {
             let img = new Image();
             img.src = song.coverUrl;
+            img.onload = () => console.log(`✓ Song ${index + 1} cover loaded: ${song.songName}`);
+            img.onerror = () => console.log(`✗ Song ${index + 1} cover failed to load. Check URL:`, song.coverUrl);
             foodImages[index] = img;
         });
+
+        console.log('Total songs loaded:', SONGS.length);
 
         // Audio setup
         const bgm = document.getElementById('bgm');
@@ -234,6 +602,9 @@
         function startGame() {
             if (gameRunning && !gamePaused) return;
             
+            // stop menu music when the game begins so it doesn't overlap
+            document.getElementById('bgmMenu').pause();
+
             if (!gameRunning) {
                 shuffleSongs();
                 snake = [{ x: 5, y: 5 }];
@@ -242,9 +613,15 @@
                 nextDx = 1;
                 nextDy = 0;
                 score = 0;
-                songsEaten = 0;
+                applesEaten = 0;
+                songsCollected = 0;
+                collectedSongIndices.clear();
+                applesEatenThisRound = 0;
+                milestoneTriggered.clear(); // Reset milestone tracking
                 updateScore();
                 generateFood();
+
+                console.log('Game started. Snake at:', snake[0], 'Food at:', food)
             }
 
             gameRunning = true;
@@ -254,7 +631,7 @@
             document.getElementById('pauseBtn').textContent = 'Pause';
 
             clearInterval(gameLoop);
-            gameLoop = setInterval(update, 100);
+            gameLoop = setInterval(update, 200);
         }
 
         function togglePause() {
@@ -266,9 +643,13 @@
             if (gamePaused) {
                 clearInterval(gameLoop);
                 bgm.pause();
+                // show menu music while paused
+                document.getElementById('bgmMenu').play().catch(e => console.log('Menu resume prevented:', e));
             } else {
-                gameLoop = setInterval(update, 100);
+                gameLoop = setInterval(update, 200);
                 bgm.play();
+                // pause menu music when resuming
+                document.getElementById('bgmMenu').pause();
             }
         }
 
@@ -281,23 +662,38 @@
             currentSongIndex = 0;
         }
 
-        function generateFood() {
+        function generateFood(depth = 0) {
+            // Safety check to prevent infinite recursion if snake fills board
+            if (depth > 50) {
+                // If we can't find a spot after 50 tries, end the game
+                endGame();
+                return;
+            }
+            
             food.x = Math.floor(Math.random() * tileCount);
             food.y = Math.floor(Math.random() * tileCount);
             
-            // Get next song from shuffled sequence
-            food.songIndex = SONGS.indexOf(songSequence[currentSongIndex]);
+            // Pattern: 1 song-changing, 3 no-effect apples, repeat
+            // Pattern position: (applesEatenThisRound % 4) gives us 0,1,2,3
+            const patternPos = applesEatenThisRound % 4;
+            food.changesMusic = (patternPos === 0); // Only when pos is 0 (every 4th apple)
             
-            // Move to next song, and restart sequence if we've eaten all songs
-            currentSongIndex++;
-            if (currentSongIndex >= songSequence.length) {
-                shuffleSongs(); // Reshuffle and loop infinitely
+            if (food.changesMusic) {
+                // Get next song from shuffled sequence
+                food.songIndex = SONGS.indexOf(songSequence[currentSongIndex]);
+                
+                // Move to next song, and restart sequence if we've eaten all songs
+                currentSongIndex++;
+                if (currentSongIndex >= songSequence.length) {
+                    shuffleSongs(); // Reshuffle and loop infinitely
+                }
             }
+            // If it doesn't change music, keep the current songIndex (no change)
 
             // Ensure food doesn't spawn on snake
             for (let segment of snake) {
                 if (segment.x === food.x && segment.y === food.y) {
-                    generateFood();
+                    generateFood(depth + 1);
                     break;
                 }
             }
@@ -330,9 +726,30 @@
             // Check food collision
             if (head.x === food.x && head.y === food.y) {
                 score += 10;
-                songsEaten++;
+                applesEaten++;
+                
+                if (food.changesMusic) {
+                    playSong(food.songIndex);
+                    if (!collectedSongIndices.has(food.songIndex)) {
+                        collectedSongIndices.add(food.songIndex);
+                        songsCollected++;
+                        if (songsCollected === SONGS.length) {
+                            displayJuggernauntFan();
+                        }
+                    }
+                }
+                
+                // Check for milestones and combo (every 25 apples)
+                if (applesEaten % 25 === 0 && applesEaten > 0) {
+                    if (MILESTONE_IMAGES[applesEaten]) {
+                        triggerMilestone(applesEaten);
+                    }
+                    triggerCombo(applesEaten);
+                }
+                
+                // Always update UI
                 updateScore();
-                playSong(food.songIndex);
+                applesEatenThisRound++;
                 generateFood();
             } else {
                 snake.pop();
@@ -341,19 +758,69 @@
             draw();
         }
 
+        function triggerCombo(comboNumber) {
+            const comboDiv = document.getElementById('comboText');
+            comboDiv.textContent = `Combo ${comboNumber}`;
+            comboDiv.classList.add('active');
+            
+            setTimeout(() => {
+                comboDiv.classList.remove('active');
+            }, 4000);
+        }
+
+        function displayJuggernauntFan() {
+            const overlay = document.getElementById('fanOverlay');
+            // Show fullscreen semi-transparent overlay with message
+            overlay.classList.add('active');
+            // hide again after animation
+            setTimeout(() => {
+                overlay.classList.remove('active');
+            }, 4000);
+        }
+
+        function triggerMilestone(milestoneApples) {
+            const imgUrl = MILESTONE_IMAGES[milestoneApples];
+            if (!imgUrl) return;
+            
+            const overlay = document.getElementById('milestoneOverlay');
+            const img = document.getElementById('milestoneImage');
+            img.src = imgUrl;
+            overlay.classList.add('active');
+            
+            // Remove animation class after 4 seconds
+            setTimeout(() => {
+                overlay.classList.remove('active');
+            }, 4000);
+        }
+
         function playSong(songIndex) {
             const song = SONGS[songIndex];
+            // pause menu music when a song starts
+            document.getElementById('bgmMenu').pause();
             audioSource.src = song.songUrl;
             songName.textContent = song.songName;
             songCover.src = song.coverUrl;
             songInfo.classList.add('active');
             bgm.load();
+            // if a startTime is specified, set it once metadata is available
+            if (song.startTime && !isNaN(song.startTime)) {
+                bgm.addEventListener('loadedmetadata', function setStart() {
+                    bgm.currentTime = song.startTime;
+                    bgm.removeEventListener('loadedmetadata', setStart);
+                });
+            }
             bgm.play().catch(e => console.log('Autoplay prevented:', e));
+            // when background music ends, resume menu
+            bgm.onended = () => {
+                if (!gameRunning) return;
+                document.getElementById('bgmMenu').play().catch(e => console.log('Menu resume prevented:', e));
+            };
         }
 
         function updateScore() {
             document.getElementById('score').textContent = score;
-            document.getElementById('songsEaten').textContent = songsEaten;
+            document.getElementById('applesEaten').textContent = applesEaten;
+            document.getElementById('songsCollected').textContent = songsCollected;
         }
 
         function draw() {
@@ -376,24 +843,28 @@
                 ctx.stroke();
             }
 
-            // Draw snake
+            // Draw snake with fallback
             snake.forEach((segment, index) => {
-                if (snakeImg.complete) {
+                if (snakeImg.complete && snakeImg.naturalWidth > 0) {
                     ctx.drawImage(snakeImg, segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
                 } else {
-                    // Fallback color if image not loaded
                     ctx.fillStyle = index === 0 ? '#4CAF50' : '#45a049';
                     ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
+                    ctx.strokeStyle = '#000';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
                 }
             });
 
             // Draw food (apple with song cover)
-            if (foodImages[food.songIndex].complete) {
+            if (foodImages[food.songIndex] && foodImages[food.songIndex].complete && foodImages[food.songIndex].naturalWidth > 0) {
                 ctx.drawImage(foodImages[food.songIndex], food.x * gridSize, food.y * gridSize, gridSize, gridSize);
             } else {
-                // Fallback color if image not loaded
                 ctx.fillStyle = '#ff6b6b';
                 ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize, gridSize);
+                ctx.strokeStyle = '#000';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(food.x * gridSize, food.y * gridSize, gridSize, gridSize);
             }
         }
 
@@ -401,14 +872,44 @@
             gameRunning = false;
             clearInterval(gameLoop);
             bgm.pause();
+            document.getElementById('bgmMenu').play().catch(e => console.log('Menu music autoplay prevented:', e));
             document.getElementById('startBtn').disabled = false;
             document.getElementById('pauseBtn').disabled = true;
             document.getElementById('startBtn').textContent = 'Start Game';
-            alert(`Game Over! Final Score: ${score}\nSongs Eaten: ${songsEaten}`);
+            let message = `Game Over! Final Score: ${score}\nApples Eaten: ${applesEaten}\nSongs Collected: ${songsCollected}`;
+            if (songsCollected === SONGS.length) {
+                message += '\nYou have collected all the songs!';
+                // include the former fan overlay text below the congratulations
+                message += '\nYou are a real Juggernaut fan!';
+                message += '\n你赢了，你的剑圣吃品味小众且独特';
+                message += '\nあなたの勝ちだ。あなたのJuggernautへの愛はニッチで独占的だ。';
+            }
+            alert(message);
+            // no overlay call on game over any more
         }
 
         // Initial draw
         draw();
+        
+        // Play menu music when DOM is ready (ensures it starts as soon as user enters)
+        // attempt to play menu music immediately (muted to bypass autoplay)
+        {
+            const menuAudio = document.getElementById('bgmMenu');
+            const tryPlay = () => {
+                menuAudio.muted = true;  // play muted first to satisfy autoplay policies
+                menuAudio.play()
+                    .then(() => { menuAudio.muted = false; })
+                    .catch(e => console.log('Menu music autoplay prevented:', e));
+            };
+            tryPlay();
+            const startOnInteraction = () => {
+                tryPlay();
+                document.removeEventListener('click', startOnInteraction);
+                document.removeEventListener('keydown', startOnInteraction);
+            };
+            document.addEventListener('click', startOnInteraction);
+            document.addEventListener('keydown', startOnInteraction);
+        }
     </script>
 </body>
 </html>
